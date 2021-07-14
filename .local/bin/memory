@@ -1,0 +1,3 @@
+#!/bin/sh
+
+free --mebi | sed -n '2{p;q}' | awk '{printf ("  %dM %d%\n", ($3), (100*$3/$2))}'

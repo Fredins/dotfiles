@@ -1,43 +1,44 @@
-! special
-*.foreground:   #ffffff
-*.background:   #000000
-*.cursorColor:  #ffffff
+! polar night
+#define nord0 #1e2127
+#define nord1 #2E3440
+#define nord2 #3B4252
+#define nord3 #4C566A
+! snow storm
+#define nord4 #D8DEE9
+#define nord5 #E5E9F0
+#define nord6 #ECEFF4
+! frost
+#define nord7 #8FBCBB
+#define nord8 #88C0D0
+#define nord9 #81A1C1
+#define nord10 #5E81AC
+! aurora
+#define nord11 #BF616A
+#define nord12 #D08770
+#define nord13 #EBCB8B
+#define nord14 #A3BE8C
+#define nord15 #B48EAD
 
-! black
-*.color0:       #393939
-*.color8:       #474747
+*.color0: nord1
+*.color1: nord11
+*.color2: nord14
+*.color3: nord13
+*.color4: nord9
+*.color5: nord15
+*.color6: nord8
+*.color7: nord5
+*.color8: nord3
+*.color9: nord11
+*.color10: nord14
+*.color11: nord13
+*.color12: nord9
+*.color13: nord15
+*.color14: nord6
+*.color15: nord7
 
-! red
-*.color1:       #ff9f95
-*.color9:       #ff8d80
-
-! green
-*.color2:       #e2ffc7
-*.color10:      #dbffb3
-
-! yellow
-*.color3:       #ffffb9
-*.color11:      #ffbe64
-
-! blue
-*.color4:       #a8ceea
-*.color12:      #7eb6ff
-
-! magenta
-*.color5:       #e2b5cc
-*.color13:      #e296ff
-
-! cyan
-*.color6:       #c2efff
-*.color14:      #9ce9ff
-
-! white
-*.color7:       #dddddd
-*.color15:      #dddddd
-
-
-URxvt.background: #0d0d0f
-URxvt.foreground: #ffffff
+*.background: nord0 
+*.foreground: nord6
+!*.cursorColor: white st b-space stops working...
 
 URxvt.scrollBar: false
-URxvt.font: xft:SometypeMono:size=13:style=medium
+URxvt.font: xft:JetBrainsMono:size=12:weight=90, xft:SometypeMono:size=14:weight=120, FontAwesome5Brands-Regular:size=10, FontAwesome5Free-Regular:size=10, FontAwesome5Solid-Regular:size=10
