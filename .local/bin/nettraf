@@ -19,4 +19,18 @@ update() {
 rx=$(update /sys/class/net/[ew]*/statistics/rx_bytes)
 tx=$(update /sys/class/net/[ew]*/statistics/tx_bytes)
 
-printf "🔻%dk 🔺%dk\\n" "$rx" "$tx"
+nettraf=" $tx  $rx" 
+
+case "$(cat /sys/class/net/e*/operstate 2>/dev/null)" in
+        up)
+                connection=" ";;
+        down)
+                case "$(cat /sys/class/net/w*/operstate 2>/dev/null)" in
+                        up) connection="$(awk '/^\s*w/ { print " ", int($3 * 100 / 70) "% " }' /proc/net/wireless)" ;;
+                        down) connection=" " ;;
+
+                esac;;
+esac
+
+
+printf "%-16s %s\n" "$nettraf" "$connection"

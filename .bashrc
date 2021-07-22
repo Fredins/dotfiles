@@ -22,12 +22,11 @@ export EDITOR="nvim"
 export TERMINAL="st"
 export READER="zathura"
 export BROWSER="firefox"
-export STATUSBAR="gocaudices"
+export STATUSBAR="gosu"
 
 # ~/ Clean-up
 export GOPATH="$HOME/.local/share/go"
-export GOBIN="$HOME/.local/share/go/bin"
-
+export GOBIN="$HOME/.local/share/go/bin" 
 # Other global variables
 export WM="dwm"
 export LF_ICONS="di=📁:\
@@ -93,11 +92,11 @@ ex=🎯:\
 "
 
 function sm(){
-    xrandr  --output HDMI-0 --primary --mode 1920x1080 --rate 144 --output DP-4  --off
+    xrandr --output HDMI-0 --rate 144 --auto --output DP-0 --off
 }
 
 function dm(){
-    xrandr  --output HDMI-0 --primary --mode 1920x1080 --rate 144 --output DP-4  --left-of HDMI-0 --mode 1920x1080 --rate 60
+    xrandr  --output HDMI-0 --primary --mode 1920x1080 --rate 144 --output DP-0  --left-of HDMI-0 --mode 1920x1080 --rate 60
 }
 
 function wacom(){

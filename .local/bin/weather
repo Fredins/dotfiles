@@ -19,7 +19,7 @@ weatherreport="$HOME/.local/share/weatherreport"
 # display them with coresponding emojis. If weather report is empty, print a
 # question mark.
 [ -z "$(cat ~/.local/share/weatherreport | head -n-3)" ] && printf "❓" && exit
-printf "%s" "$(sed '18q;d' "$weatherreport" | grep -wo "[0-9]*%" | sort -rn | sed "s/^/☔/g;1q" | tr -d '\n')"
-sed '15q;d' "$weatherreport" | grep -o "m\\([-+]\\)*[0-9]\\+" | sort -n -t 'm' -k 2n | sed -e 1b -e '$!d' | tr '\n|m' ' ' | awk '{print " ❄" $1 "°","🌞" $2 "°"}'
+printf "%s" "$(sed '18q;d' "$weatherreport" | grep -wo "[0-9]*%" | sort -rn | sed "s/^/ /g;1q" | tr -d '\n')"
+sed '15q;d' "$weatherreport" | grep -o "m\\([-+]\\)*[0-9]\\+" | sort -n -t 'm' -k 2n | sed -e 1b -e '$!d' | tr '\n|m' ' ' | awk '{print "  " $1 "°"," " $2 "°"}'
 
 
