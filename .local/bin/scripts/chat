@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if [ "$1" = "destiny" ] || [ "$1" = "dgg" ]; then
+    firefox https://www.destiny.gg/embed/chat &
+else 
+    firefox https://www.twitch.tv/popout/$1/chat?popout= &
+fi
+

@@ -1,6 +1,7 @@
 xrdb ~/.Xresources
-feh --bg-scale ~/pictures/wallpapers/light.png
-xrandr --output HDMI-0 --mode 1920x1080 --rate 144 --output DP-1  --off 
+#xrandr --output HDMI-0 --primary --mode 1920x1080 --rate 144 --output DP-0  --off 
+feh --bg-scale ~/pictures/wallpapers/dark.png
 xsetwacom set 13 MapToOutput 1920x1080+1920+0
+clipmenud &
 exec gosu & 
 exec dwm 

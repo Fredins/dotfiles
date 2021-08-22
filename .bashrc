@@ -7,15 +7,21 @@
 
 alias ls='ls --color=always --format=single-column --human-readable'
 alias v='nvim'
-alias z='nohup zathura'
+alias z='zathura --fork'
 
-
-PS1='\[\e[0;38;5;219m\]$(git branch 2>/dev/null | grep '"'"'^*'"'"' | colrm 1 2)\[\e[0m\] \[\e[0;38;5;45m\]\w\[\e[0m\] \[\e[0;38;5;45m\]»\[\e[0m\] \[\e0'
+#PS1='\[\e[0;38;5;219m\]$(git branch 2>/dev/null | grep '"'"'^*'"'"' | colrm 1 2)\[\e[0m\] \[\e[0;38;5;45m\]\w\[\e[0m\] \[\e[0;38;5;45m\]»\[\e[0m\] \[\e0'
 bind 'set completion-ignore-case on'
 
+PS1='\[\e[0;1;38;5;108m\]$(git branch 2>/dev/null | grep '"'"'^*'"'"' | colrm 1 2)\[\e[0m\] \[\e[0;38;5;67m\]\w\[\e[0;38;5;67m\] λ \[\e[0m\]'
 # envs
 # Adds needed directories to $PATH variable
-export PATH="$PATH:$(du "$HOME/.local/bin/" "$HOME/.local/share/go/bin" | cut -f2 | paste -sd ':')"
+# export PATH="$PATH:$(du "$HOME/.local/share/go/bin" "$HOME/.local/bin/" "$HOME/.local/bin/statusbar" "$HOME/.local/bin/scripts" "$HOME/.local/bin/games" | cut -f2 | paste -sd ':')"
+export PATH="$PATH:\
+$HOME/.local/share/go/bin:\
+$HOME/.local/bin/:\
+$HOME/.local/bin/statusbar:\
+$HOME/.local/bin/scripts:\
+$HOME/.local/bin/games"
 
 # Defualt programs
 export EDITOR="nvim"
@@ -44,8 +50,7 @@ ex=🎯:\
 *.ico=🖼:\
 *.jpg=📸:\
 *.jpeg=📸:\
-*.gif=🖼:\
-*.svg=🗺:\
+*.gif=🖼:\ *.svg=🗺:\
 *.xcf=🖌:\
 *.html=🌎:\
 *.xml=📰:\
@@ -92,7 +97,7 @@ ex=🎯:\
 "
 
 function sm(){
-    xrandr --output HDMI-0 --rate 144 --auto --output DP-0 --off
+    xrandr --output HDMI-0 --mode 1920x1080 --rate 144 --output DP-0 --off
 }
 
 function dm(){

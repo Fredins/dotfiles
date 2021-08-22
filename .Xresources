@@ -6,7 +6,7 @@
 ! snow storm
 #define nord4 #D8DEE9
 #define nord5 #E5E9F0
-#define nord6 #ECEFF4
+#define nord6 #f9f9fa
 ! frost
 #define nord7 #8FBCBB
 #define nord8 #88C0D0
@@ -36,7 +36,9 @@
 *.color14: nord6
 *.color15: nord7
 
-*.background: nord0 
+!*.background: nord6
+*.background: nord0
+!*.foreground: nord0
 *.foreground: nord6
 !*.cursorColor: white st b-space stops working...
 

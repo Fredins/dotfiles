@@ -4,5 +4,5 @@
 # $1 should be drive mountpoint, otherwise assumed /.
 
 
-printf "%s %s\n" "" "$(df -h /dev/$1 | awk ' /[0-9]/ {print $3 "/" $2}')"
+printf "%s %s\n" " " "$(df -h $1 | awk ' /[0-9]/ {print $3 "/" $2}')"
 
