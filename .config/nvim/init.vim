@@ -1,3 +1,11 @@
+call plug#begin('~/.config/nvim/plugins')
+Plug 'neovim/nvim-lspconfig'
+Plug 'kabouzeid/nvim-lspinstall'
+Plug 'hrsh7th/completion-nvim'
+Plug 'arcticicestudio/nord-vim'
+Plug 'jdhao/better-escape.vim'
+call plug#end()
+
 set nu
 set relativenumber
 set nohlsearch
@@ -6,25 +14,20 @@ set tabstop=4 softtabstop=4
 set shiftwidth=4
 set expandtab
 set smartindent
-set nowrap
 set noswapfile
+set wrap
 set nobackup
 set clipboard+=unnamedplus
+colorscheme nord
+set scrolloff=10
 
-call plug#begin('~/.config/nvim/plugins')
-Plug 'neovim/nvim-lspconfig'
-Plug 'kabouzeid/nvim-lspinstall'
-Plug 'hrsh7th/completion-nvim'
-call plug#end()
 
 lua << EOF
-
 -- keymaps
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
   
-
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
   -- Mappings.
