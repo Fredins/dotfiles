@@ -1,3 +1,3 @@
 #!/bin/sh
-sensors | awk 'NR==3 {printf substr($2,2)}'
+sensors | awk 'NR==3 {printf " " substr($2,2)}'
 uptime | awk '{printf "  "substr($9, 0,4)"\n" }'
