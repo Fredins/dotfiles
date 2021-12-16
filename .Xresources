@@ -36,11 +36,9 @@
 *.color14: nord6
 *.color15: nord7
 
-!*.background: nord6
 *.background: nord0
-!*.foreground: nord0
 *.foreground: nord6
-!*.cursorColor: white st b-space stops working...
+Xcursor.theme: Left_ptr
 
 URxvt.scrollBar: false
 URxvt.font: xft:JetBrainsMono:size=12:weight=90, xft:SometypeMono:size=14:weight=120, FontAwesome5Brands-Regular:size=10, FontAwesome5Free-Regular:size=10, FontAwesome5Solid-Regular:size=10

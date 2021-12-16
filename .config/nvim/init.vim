@@ -4,25 +4,45 @@ Plug 'kabouzeid/nvim-lspinstall'
 Plug 'hrsh7th/completion-nvim'
 Plug 'arcticicestudio/nord-vim'
 Plug 'jdhao/better-escape.vim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  
+Plug 'Pocco81/TrueZen.nvim'
+"Plug 'nvim-lua/plenary.nvim'
+"Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+"Plug 'nvim-telescope/telescope.nvim'
+Plug 'ndmitchell/ghcid', { 'rtp': 'plugins/nvim' }
+Plug 'elmcast/elm-vim'
 call plug#end()
 
 set nu
 set relativenumber
 set nohlsearch
 set incsearch
-set tabstop=4 softtabstop=4
-set shiftwidth=4
+set tabstop=2 softtabstop=2
+set shiftwidth=2
 set expandtab
 set smartindent
 set noswapfile
-set wrap
+set nowrap
 set nobackup
 set clipboard+=unnamedplus
 colorscheme nord
+set backupcopy=yes
 set scrolloff=10
+let mapleader = "\<Space>"
 
-
+let g:elm_jump_to_error = 0
+let g:elm_make_output_file = "elm.js"
+let g:elm_make_show_warnings = 0
+let g:elm_syntastic_show_warnings = 0
+let g:elm_browser_command = ""
+let g:elm_detailed_complete = 0
+let g:elm_format_autosave = 0
+let g:elm_format_fail_silently = 0
+let g:elm_setup_keybindings = 0
 lua << EOF
+
+-- LSP
+
 -- keymaps
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -31,6 +51,7 @@ local on_attach = function(client, bufnr)
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
   -- Mappings.
+  -- K : see desc hover
   local opts = { noremap=true, silent=true }
   buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
   buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
@@ -137,5 +158,6 @@ require'lspinstall'.post_install_hook = function ()
   setup_servers() -- reload installed servers
   vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
 end
+
 
 EOF

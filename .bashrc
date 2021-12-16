@@ -12,10 +12,14 @@ alias z='zathura --fork'
 #PS1='\[\e[0;38;5;219m\]$(git branch 2>/dev/null | grep '"'"'^*'"'"' | colrm 1 2)\[\e[0m\] \[\e[0;38;5;45m\]\w\[\e[0m\] \[\e[0;38;5;45m\]»\[\e[0m\] \[\e0'
 bind 'set completion-ignore-case on'
 
-PS1='\[\e[0;1;38;5;108m\]$(git branch 2>/dev/null | grep '"'"'^*'"'"' | colrm 1 2)\[\e[0m\] \[\e[0;38;5;67m\]\w\[\e[0;38;5;67m\] λ \[\e[0m\]'
+PS1='\[\e[0;1;38;5;108m\]$(git branch 2>/dev/null | grep '"'"'^*'"'"' | colrm 1 2) \[\e[0;1;38;5;67m\]\w\[\e[38;5;67m\] \[\e[0;1;38;5;67m\]λ \[\e[0m\]'
+
 # envs
 # Adds needed directories to $PATH variable
 # export PATH="$PATH:$(du "$HOME/.local/share/go/bin" "$HOME/.local/bin/" "$HOME/.local/bin/statusbar" "$HOME/.local/bin/scripts" "$HOME/.local/bin/games" | cut -f2 | paste -sd ':')"
+export DSN_LISTA_IP="lingon:marmar@(188.149.190.213)/lista"
+export DSN_LISTA="lingon:marmar@(fredin.org)/lista"
+export XDG_DATA_DIRS="$XDG_DATA_DIRS:$HOME/.local/share"
 export PATH="$PATH:\
 $HOME/.local/share/go/bin:\
 $HOME/.local/bin/:\
@@ -27,14 +31,14 @@ $HOME/.local/bin/games"
 export EDITOR="nvim"
 export TERMINAL="st"
 export READER="zathura"
-export BROWSER="firefox"
+export BROWSER="chromium"
 export STATUSBAR="gosu"
 
 # ~/ Clean-up
 export GOPATH="$HOME/.local/share/go"
 export GOBIN="$HOME/.local/share/go/bin" 
 # Other global variables
-export WM="dwm"
+export WM="xmonad"
 export LF_ICONS="di=📁:\
 fi=📃:\
 tw=🤝:\
