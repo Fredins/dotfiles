@@ -26,6 +26,9 @@ $HOME/.local/bin/:\
 $HOME/.local/bin/statusbar:\
 $HOME/.local/bin/scripts:\
 $HOME/.local/bin/games"
+export MANPATH=":/usr/share/erlang/man"
+export LOCALE_ARCHIVE=$HOME/.nix-profile/lib/locale/locale-archive
+
 
 # Defualt programs
 export EDITOR="nvim"
@@ -33,72 +36,10 @@ export TERMINAL="st"
 export READER="zathura"
 export BROWSER="chromium"
 export STATUSBAR="gosu"
-
-# ~/ Clean-up
 export GOPATH="$HOME/.local/share/go"
 export GOBIN="$HOME/.local/share/go/bin" 
-# Other global variables
-export WM="xmonad"
-export LF_ICONS="di=📁:\
-fi=📃:\
-tw=🤝:\
-ow=📂:\
-ln=⛓:\
-or=❌:\
-ex=🎯:\
-*.txt=✍:\
-*.mom=✍:\
-*.me=✍:\
-*.ms=✍:\
-*.png=🖼:\
-*.ico=🖼:\
-*.jpg=📸:\
-*.jpeg=📸:\
-*.gif=🖼:\ *.svg=🗺:\
-*.xcf=🖌:\
-*.html=🌎:\
-*.xml=📰:\
-*.gpg=🔒:\
-*.css=🎨:\
-*.pdf=📚:\
-*.djvu=📚:\
-*.epub=📚:\
-*.csv=📓:\
-*.xlsx=📓:\
-*.tex=📜:\
-*.md=📘:\
-*.r=📊:\
-*.R=📊:\
-*.rmd=📊:\
-*.Rmd=📊:\
-*.mp3=🎵:\
-*.opus=🎵:\
-*.ogg=🎵:\
-*.m4a=🎵:\
-*.flac=🎼:\
-*.mkv=🎥:\
-*.mp4=🎥:\
-*.webm=🎥:\
-*.mpeg=🎥:\
-*.avi=🎥:\
-*.zip=📦:\
-*.rar=📦:\
-*.7z=📦:\
-*.tar.gz=📦:\
-*.z64=🎮:\
-*.v64=🎮:\
-*.n64=🎮:\
-*.1=ℹ:\
-*.nfo=ℹ:\
-*.info=ℹ:\
-*.log=📙:\
-*.iso=📀:\
-*.img=📀:\
-*.bib=🎓:\
-*.ged=👪:\
-*.part=💔:\
-*.torrent=🔽:\
-"
+export WM="dwm"
+export JDTLS_HOME="$HOME/.local/share/jdt-java-language-server"
 
 function sm(){
     xrandr --output HDMI-0 --mode 1920x1080 --rate 144 --output DP-0 --off

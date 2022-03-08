@@ -1,5 +1,6 @@
 ! polar night
-#define nord0 #1e2127
+!#define nord0 #1e2127
+#define nord0 #0e0e10 
 #define nord1 #2E3440
 #define nord2 #3B4252
 #define nord3 #4C566A
