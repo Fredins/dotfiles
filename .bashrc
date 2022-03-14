@@ -8,6 +8,7 @@
 alias ls='ls --color=always --format=single-column --human-readable'
 alias v='nvim'
 alias z='zathura --fork'
+alias c2n='cabal2nix --shell ./. > default.nix'
 
 #PS1='\[\e[0;38;5;219m\]$(git branch 2>/dev/null | grep '"'"'^*'"'"' | colrm 1 2)\[\e[0m\] \[\e[0;38;5;45m\]\w\[\e[0m\] \[\e[0;38;5;45m\]»\[\e[0m\] \[\e0'
 bind 'set completion-ignore-case on'
