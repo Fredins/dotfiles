@@ -3,28 +3,51 @@ import           Data.Monoid
 import           System.Exit
 import           XMonad
 import           XMonad.Actions.CycleWS
-import           XMonad.Hooks.EwmhDesktops    
-import           XMonad.Hooks.ManageDocks      (docks, avoidStruts)
-import           XMonad.Layout.Spacing
-import           XMonad.Util.Cursor
+import           XMonad.Config.Desktop
+import           XMonad.Hooks.EwmhDesktops
+import           XMonad.Hooks.ManageDocks       ( avoidStruts
+                                                , docks
+                                                , ToggleStruts(ToggleStruts)
+                                                )
 import           XMonad.Layout.LayoutModifier   ( ModifiedLayout )
 import           XMonad.Layout.NoBorders        ( smartBorders )
+import           XMonad.Layout.Spacing
+import           XMonad.Layout.ThreeColumns     ( ThreeCol(ThreeColMid) )
 import           XMonad.Layout.ToggleLayouts
 import qualified XMonad.StackSet               as W
+import           XMonad.Util.Cursor
 import           XMonad.Util.Run                ( spawnPipe )
-import           XMonad.Config.Desktop
 
 main = do
-  xmonad $ ewmhFullscreen . ewmh . docks $ desktopConfig 
-               { terminal           = myTerminal
-               , modMask            = myModMask
-               , keys               = myKeys
-               , normalBorderColor  = myNormalBorderColor
-               , focusedBorderColor = myFocusedBorderColor
-               , borderWidth        = myBorderWidth
-               }
+  xmonad $ ewmhFullscreen . ewmh . docks $ desktopConfig
+    { terminal           = myTerminal
+    , modMask            = myModMask
+    , keys               = myKeys
+    , normalBorderColor  = myNormalBorderColor
+    , focusedBorderColor = myFocusedBorderColor
+    , borderWidth        = myBorderWidth
+    , layoutHook         = myLayout
+    }
 
 
+
+
+myLayout = (smartBorders . avoidStruts) layouts
+ where
+  layouts = tiled ||| Mirror tiled ||| Full ||| threeCol 
+  threeCol = ThreeColMid 1 (3 / 100) (1 / 2)
+  tiled = Tall 1 0.05 0.515
+{-
+myLayout =
+  fullscreenFull
+    $   D.avoidStruts
+    $   smartBorders
+    $   toggleLayouts Full
+    $   tiled
+    ||| Mirror tiled
+ where
+  tiled   = Tall 1 0.05 0.515
+-}
 
 
 
@@ -60,7 +83,9 @@ myKeys conf@XConfig { XMonad.modMask = modm } =
        , ((modm, xK_t)                  , withFocused $ windows . W.sink)
        , ((modm, xK_d)                  , sendMessage (IncMasterN 1))
        , ((modm, xK_i)                  , sendMessage (IncMasterN (-1)))
-       , ((modm, xK_f)                  , sendMessage $ Toggle "Full")
+       , ((modm, xK_b)                  , sendMessage ToggleStruts)
+       , ((modm, xK_f)                  , sendMessage $ JumpToLayout "Full")
+       , ((modm, xK_q)                  , spawn "xmonad --restart")
        , ((modm, xK_Tab)                , toggleWS)
        , ((modm .|. shiftMask, xK_q)    , spawn "lxqt-leave")
        , ( (modm .|. shiftMask, xK_h)
@@ -85,7 +110,7 @@ help = unlines
   , ""
   , "-- launching and killing programs"
   , "mod-Shift-h      Launch this help window"
-  , "mod-n            Launch st"
+  , "mod-n            Launch terminal"
   , "mod-p            Launch dmenu"
   , "mod-c            Launch clipmenu"
   , "mod-Shift-c      Close/kill the focused window"
