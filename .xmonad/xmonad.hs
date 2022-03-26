@@ -49,6 +49,7 @@ main = do
     , focusedBorderColor = myFocusedBorderColor
     , borderWidth        = myBorderWidth
     , layoutHook         = myLayout
+    , manageHook         = myManageHook
     }
 
 
@@ -57,6 +58,9 @@ myLayout = (smartBorders . avoidStruts) layouts
   layouts  = tiled ||| threeCol ||| Full ||| Mirror tiled ||| simplestFloat
   tiled    = ResizableTall 1 (1 / 20) (103 / 200) []
   threeCol = ThreeCol 1 (1 / 20) (103 / 200)
+
+myManageHook = composeAll [ className =? "amazed-Main" --> doFloat ]
+--  where wmName = stringProperty "WM_NAME"
 
 
 myTerminal = "alacritty"
@@ -76,6 +80,7 @@ myKeys conf@XConfig { XMonad.modMask = modm } =
        , ((modm, xK_o)                  , withWindowSet dwmZero)
        , ((modm, xK_p)                  , spawn "dmenu_run")
        , ((modm, xK_c)                  , spawn "clipmenu")
+       , ((modm, xK_u)                  , spawn "chromium")
        , ((modm .|. shiftMask, xK_c)    , kill)
        , ((modm, xK_space)              , sendMessage NextLayout)
        , ((modm .|. shiftMask, xK_space), setLayout $ XMonad.layoutHook conf)

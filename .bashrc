@@ -26,6 +26,7 @@ $HOME/.local/share/go/bin:\
 $HOME/.local/bin/:\
 $HOME/.local/bin/statusbar:\
 $HOME/.local/bin/scripts:\
+$HOME/Games:\
 $HOME/.local/bin/games"
 export MANPATH=":/usr/share/erlang/man"
 export LOCALE_ARCHIVE=$HOME/.nix-profile/lib/locale/locale-archive
@@ -51,3 +52,5 @@ function dm(){
 }
 
 
+
+alias luamake=/home/fm/.local/share/lua-language-server/3rd/luamake/luamake
