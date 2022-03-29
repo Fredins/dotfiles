@@ -1,10 +1,11 @@
 import           Control.Monad                  ( join )
+import           Data.List                      ( find )
 import qualified Data.Map                      as M
 import           Data.Maybe                     ( fromJust )
 import           Data.Monoid
 import           System.Exit
-import           XMonad                  hiding ( workspaces )
-import qualified XMonad
+import           XMonad                  hiding ( )
+import qualified XMonad                        as Xmonad
 import           XMonad.Actions.CopyWindow      ( copiesOfOn
                                                 , copy
                                                 , copyToAll
@@ -12,11 +13,20 @@ import           XMonad.Actions.CopyWindow      ( copiesOfOn
                                                 , taggedWindows
                                                 )
 import           XMonad.Actions.CycleWS
+import           XMonad.Actions.DynamicWorkspaces
 import           XMonad.Config.Desktop
 import           XMonad.Hooks.EwmhDesktops
 import           XMonad.Hooks.ManageDocks       ( ToggleStruts(ToggleStruts)
                                                 , avoidStruts
                                                 , docks
+                                                )
+import           XMonad.Hooks.SetWMName
+import           XMonad.Layout.IndependentScreens
+                                                ( countScreens
+                                                , onCurrentScreen
+                                                , withScreen
+                                                , withScreens
+                                                , workspaces'
                                                 )
 import           XMonad.Layout.LayoutModifier   ( ModifiedLayout )
 import           XMonad.Layout.NoBorders        ( smartBorders )
@@ -35,21 +45,22 @@ import qualified XMonad.StackSet               as W
 import           XMonad.StackSet                ( integrate'
                                                 , peek
                                                 , stack
-                                                , workspaces
                                                 )
 import           XMonad.Util.Cursor
 
-
-main = do
+main = countScreens >>= \nS ->
   xmonad $ ewmhFullscreen . ewmh . docks $ desktopConfig
-    { terminal           = myTerminal
-    , modMask            = myModMask
+    { terminal           = "alacritty"
+    , modMask            = mod4Mask
+    , startupHook        = setWMName "LG3D" >> setDefaultCursor xC_left_ptr
     , keys               = myKeys
-    , normalBorderColor  = myNormalBorderColor
-    , focusedBorderColor = myFocusedBorderColor
-    , borderWidth        = myBorderWidth
+    , normalBorderColor  = "#2E3440"
+    , focusedBorderColor = "#5E81AC"
+    , borderWidth        = 2
     , layoutHook         = myLayout
-    , manageHook         = myManageHook
+    , workspaces         = withScreen 0 (map show [1 .. 9])
+                             ++ if nS == 2 then withScreen 1 (map show [1 .. 2]) else []
+--    , manageHook         = myManageHook
     }
 
 
@@ -58,21 +69,6 @@ myLayout = (smartBorders . avoidStruts) layouts
   layouts  = tiled ||| threeCol ||| Full ||| Mirror tiled ||| simplestFloat
   tiled    = ResizableTall 1 (1 / 20) (103 / 200) []
   threeCol = ThreeCol 1 (1 / 20) (103 / 200)
-
-myManageHook = composeAll [ className =? "amazed-Main" --> doFloat ]
---  where wmName = stringProperty "WM_NAME"
-
-
-myTerminal = "alacritty"
-myFocusFollowsMouse :: Bool
-myFocusFollowsMouse = True
-myClickJustFocuses :: Bool
-myClickJustFocuses = False
-myBorderWidth = 2
-myModMask = mod4Mask
-myNormalBorderColor = "#2E3440"
-myFocusedBorderColor = "#5E81AC"
-myStartupHook = setDefaultCursor xC_left_ptr
 
 myKeys conf@XConfig { XMonad.modMask = modm } =
   M.fromList
@@ -104,27 +100,48 @@ myKeys conf@XConfig { XMonad.modMask = modm } =
        , ((modm, xK_Tab)                , toggleWS)
        , ((modm .|. shiftMask, xK_q)    , spawn "lxqt-leave")
        ]
-    ++ [ ((m .|. modm, k), windows $ f i)
-       | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
-       , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]
+    ++ [ ((m .|. modm, k), windows $ onCurrentScreen f i)
+       | (i, k) <- zip (workspaces' conf) [xK_1 .. xK_9]
+       , (f, m) <- [(lazyView, 0), (W.shift, shiftMask)]
        ]
+
     ++ [ ((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
        | (key, sc) <- zip [xK_w, xK_e, xK_r] [0 ..]
        , (f  , m ) <- [(W.view, 0), (W.shift, shiftMask)]
        ]
 
+
 dwmZero :: WindowSet -> X ()
-dwmZero w = toggle $ filter (== fromJust (peek w)) ws
+dwmZero w = toggle $ filter (== (fromJust . peek) w) ws
  where
-  toggle xs | length xs >  1 = killAllOtherCopies
-            | otherwise      = windows copyToAll
+  toggle xs | length xs > 1 = killAllOtherCopies
+            | otherwise     = windows copyToAll
 
-  ws = concatMap (integrate' . stack) $ workspaces w
-
-
+  ws = concatMap (integrate' . stack) $ W.workspaces w
 
 
+--myManageHook = composeAll [className =? "amazed-Main" --> doFloat]
+--  where wmName = stringProperty "WM_NAME"
 
 
 
 
+{-
+greedyView :: (Eq s, Eq i) => i -> W.StackSet i l a s sd -> W.StackSet i l a s sd
+greedyView w ws
+     | any wTag (W.hidden ws) = W.view w ws
+     | (Just s) <- find (wTag . W.workspace) (W.visible ws)
+                            = ws { W.current = (W.current ws) { W.workspace = W.workspace s }
+                                 , W.visible = s { W.workspace = W.workspace (W.current ws) }
+                                           : filter (not . wTag . W.workspace) (W.visible ws) }
+     | otherwise = ws
+   where wTag = (w == ) . W.tag
+
+
+addWorkspaceAt :: (WindowSpace -> [WindowSpace] -> [WindowSpace]) -> String -> X ()
+addWorkspaceAt add newtag = addHiddenWorkspaceAt add newtag >> windows (greedyView newtag)
+-}
+
+
+isVisible w ws = any ((w ==) . W.tag . W.workspace) (W.visible ws)
+lazyView w ws = if isVisible w ws then ws else W.view w ws
