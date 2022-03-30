@@ -13,7 +13,6 @@ import           XMonad.Actions.CopyWindow      ( copiesOfOn
                                                 , taggedWindows
                                                 )
 import           XMonad.Actions.CycleWS
-import           XMonad.Actions.DynamicWorkspaces
 import           XMonad.Config.Desktop
 import           XMonad.Hooks.EwmhDesktops
 import           XMonad.Hooks.ManageDocks       ( ToggleStruts(ToggleStruts)
@@ -48,7 +47,7 @@ import           XMonad.StackSet                ( integrate'
                                                 )
 import           XMonad.Util.Cursor
 
-main = countScreens >>= \nS ->
+main =
   xmonad $ ewmhFullscreen . ewmh . docks $ desktopConfig
     { terminal           = "alacritty"
     , modMask            = mod4Mask
@@ -59,7 +58,7 @@ main = countScreens >>= \nS ->
     , borderWidth        = 2
     , layoutHook         = myLayout
     , workspaces         = withScreen 0 (map show [1 .. 9])
-                             ++ if nS == 2 then withScreen 1 (map show [1 .. 2]) else []
+                             ++ withScreen 1 (map show [1 .. 2])
 --    , manageHook         = myManageHook
     }
 
@@ -106,7 +105,7 @@ myKeys conf@XConfig { XMonad.modMask = modm } =
        ]
 
     ++ [ ((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
-       | (key, sc) <- zip [xK_w, xK_e, xK_r] [0 ..]
+       | (key, sc) <- zip [xK_e, xK_w] [0 ..]
        , (f  , m ) <- [(W.view, 0), (W.shift, shiftMask)]
        ]
 
