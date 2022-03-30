@@ -47,7 +47,7 @@ import           XMonad.StackSet                ( integrate'
                                                 )
 import           XMonad.Util.Cursor
 
-main =
+main = countScreens >>= \nS -> 
   xmonad $ ewmhFullscreen . ewmh . docks $ desktopConfig
     { terminal           = "alacritty"
     , modMask            = mod4Mask
@@ -58,7 +58,7 @@ main =
     , borderWidth        = 2
     , layoutHook         = myLayout
     , workspaces         = withScreen 0 (map show [1 .. 9])
-                             ++ withScreen 1 (map show [1 .. 2])
+                             ++ if nS == 2 then withScreen 1 (map show [1 .. 2]) else []
 --    , manageHook         = myManageHook
     }
 
