@@ -55,7 +55,7 @@ main = countScreens >>= \nS ->
     , keys               = myKeys
     , normalBorderColor  = "#2E3440"
     , focusedBorderColor = "#5E81AC"
-    , borderWidth        = 2
+    , borderWidth        = 3
     , layoutHook         = myLayout
     , workspaces         = withScreen 0 (map show [1 .. 9])
                              ++ if nS == 2 then withScreen 1 (map show [1 .. 2]) else []
