@@ -46,8 +46,10 @@ import           XMonad.StackSet                ( integrate'
                                                 , stack
                                                 )
 import           XMonad.Util.Cursor
+import XMonad.Util.Replace
 
-main = countScreens >>= \nS -> 
+main = countScreens >>= \nS -> do
+  replace
   xmonad $ ewmhFullscreen . ewmh . docks $ desktopConfig
     { terminal           = "alacritty"
     , modMask            = mod4Mask
@@ -59,11 +61,14 @@ main = countScreens >>= \nS ->
     , layoutHook         = myLayout
     , workspaces         = withScreen 0 (map show [1 .. 9])
                              ++ if nS == 2 then withScreen 1 (map show [1 .. 2]) else []
---    , manageHook         = myManageHook
+    , manageHook         = myManageHook
     }
 
 
-myLayout = (smartBorders . avoidStruts) layouts
+myLayout = ( smartBorders 
+           . avoidStruts 
+           . spacingRaw True (Border 0 0 0 0) False (Border 0 4 4 0) True) 
+           layouts
  where
   layouts  = tiled ||| threeCol ||| Full ||| Mirror tiled ||| simplestFloat
   tiled    = ResizableTall 1 (1 / 20) (103 / 200) []
@@ -96,6 +101,7 @@ myKeys conf@XConfig { XMonad.modMask = modm } =
        , ((modm, xK_b)                  , sendMessage ToggleStruts)
        , ((modm, xK_f)                  , sendMessage $ JumpToLayout "Full")
        , ((modm, xK_q)                  , spawn "xmonad --restart")
+       , ((modm .|. shiftMask, xK_o)    , restart "/home/fm/.local/bin/obtoxmd" True)
        , ((modm, xK_Tab)                , toggleWS)
        , ((modm .|. shiftMask, xK_q)    , spawn "lxqt-leave")
        ]
@@ -119,8 +125,8 @@ dwmZero w = toggle $ filter (== (fromJust . peek) w) ws
   ws = concatMap (integrate' . stack) $ W.workspaces w
 
 
---myManageHook = composeAll [className =? "amazed-Main" --> doFloat]
---  where wmName = stringProperty "WM_NAME"
+myManageHook = composeAll [className =? "rename-qt" --> doFloat]
+  where wmName = stringProperty "WM_NAME"
 
 
 

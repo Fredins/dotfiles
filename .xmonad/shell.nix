@@ -4,7 +4,7 @@ let
 
   inherit (nixpkgs) pkgs;
 
-  f = { mkDerivation, base, containers, lib, xmonad, xmonad-contrib_0_17_0
+  f = { mkDerivation, base, containers, lib, xmonad, xmonad-contrib
       }:
       mkDerivation {
         pname = "xmonad-config";
@@ -13,7 +13,7 @@ let
         isLibrary = false;
         isExecutable = true;
         executableHaskellDepends = [
-          base containers xmonad xmonad-contrib_0_17_0
+          base containers xmonad xmonad-contrib
         ];
         license = "unknown";
         hydraPlatforms = lib.platforms.none;
